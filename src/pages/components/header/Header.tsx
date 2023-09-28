@@ -35,7 +35,7 @@ const Header = (props: Props) => {
                 display: { xs: "none", md: "flex" },
                 fontFamily: "monospace",
                 fontWeight: 700,
-                letterSpacing: ".2rem",
+                letterSpacing: ".1rem",
                 color: mainColors.grey,
                 textDecoration: "none",
               }}
