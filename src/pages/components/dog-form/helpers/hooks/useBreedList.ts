@@ -2,7 +2,7 @@ import { fetchDogs } from "@/pages/network/lib/dogApi";
 import { useEffect, useState } from "react";
 
 export const useBreedList = () => {
-  const [breedList, setBreedList] = useState();
+  const [breedList, setBreedList] = useState(null);
 
   const fetchData = async () => {
     await fetchDogs()
