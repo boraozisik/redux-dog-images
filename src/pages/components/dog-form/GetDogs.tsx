@@ -39,9 +39,6 @@ const GetDogs = (props: Props) => {
             setImages={setImages}
             setIsLoading={setIsLoading}
           />
-          {Object.keys(breedList as Object)?.map((breedKey, index) => (
-            <Stack key={index}>{breedKey}</Stack>
-          ))}
         </Stack>
       )}
     </Stack>

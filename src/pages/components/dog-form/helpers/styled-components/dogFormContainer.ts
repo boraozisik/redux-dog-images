@@ -1,3 +1,4 @@
+import { mainColors } from "@/pages/components/mainOptions";
 import { styled, Stack } from "@mui/material";
 
 export const DogFormContainer = styled(Stack)(({ theme }) => ({
@@ -7,6 +8,6 @@ export const DogFormContainer = styled(Stack)(({ theme }) => ({
   gap: "10px",
   margin: "20px auto",
   padding: "15px",
-  backgroundColor: "grey",
+  backgroundColor: mainColors.grey,
   borderRadius: "10px",
 }));

@@ -10,7 +10,7 @@ type Props = {};
 
 const Header = (props: Props) => {
   return (
-    <AppBar position="static" sx={{ backgroundColor: mainColors.primary }}>
+    <AppBar position="static" sx={{ backgroundColor: mainColors.primary.main }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters sx={{ justifyContent: "space-between" }}>
           <Stack
