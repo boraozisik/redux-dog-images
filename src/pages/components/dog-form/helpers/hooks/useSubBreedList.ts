@@ -1,14 +1,14 @@
 import { fetchDogsSubBreed } from "@/pages/network/lib/dogApi";
 import { useEffect, useState } from "react";
 
-export const useSubBreedList = () => {
+export const useSubBreedList = (breedState: string) => {
   const [subBreedList, setSubBreedList] = useState([]);
 
   const fetchData = async () => {
-    await fetchDogsSubBreed()
+    await fetchDogsSubBreed(breedState)
       .then((data) => {
-        console.log(data?.message);
-        setBreedList(data?.message);
+        console.log("subbreedd", data?.message);
+        setSubBreedList(data?.message);
       })
       .catch((error) => {
         console.log("Error:", error);

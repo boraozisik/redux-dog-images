@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { DogFormContainer } from "../helpers/styled-components/dogFormContainer";
 import { Stack, Typography, Button } from "@mui/material";
 import InputLabel from "@mui/material/InputLabel";
@@ -26,7 +26,9 @@ const DogForm = ({
   setImages,
   setIsLoading,
 }: DogFormProps) => {
-  const [breed, setBreed] = React.useState("");
+  const [breed, setBreed] = useState("");
+  const [subBreed, setSubBreed] = useState("");
+  const [numberOfImages, setNumberOfImages] = useState(1);
   const dispatch = useDispatch();
 
   //alternative select's value
@@ -40,13 +42,35 @@ const DogForm = ({
   // const numberState = dogStore?.number;
   // const errorState = dogStore?.error;
 
-  const handleChange = (e: any) => {
+  const handleBreedChange = (e: any) => {
     setBreed(e.target.value === "clear" ? "" : e.target.value);
     dispatch({
       type: DogImagesAppActionType.BREED,
       payload: e.target.value === "clear" ? "all" : e.target.value,
     });
+    dispatch({
+      type: DogImagesAppActionType.SUB_BREED,
+      payload: "all",
+    });
     console.log("change func", e.target.value);
+  };
+
+  const handleSubBreedChange = (e: any) => {
+    setSubBreed(e.target.value);
+    dispatch({
+      type: DogImagesAppActionType.SUB_BREED,
+      payload: e.target.value,
+    });
+    console.log("change func222", e.target.value);
+  };
+
+  const handleNumberOfImagesChange = (e: any) => {
+    setSubBreed(e.target.value);
+    dispatch({
+      type: DogImagesAppActionType.NUMBER,
+      payload: e.target.value,
+    });
+    console.log("change func222", e.target.value);
   };
 
   const handleClickClear = (e: any) => {
@@ -57,12 +81,12 @@ const DogForm = ({
     <Stack>
       <DogFormContainer>
         <Typography variant="h4">Dog form</Typography>
-        <FormControl sx={{ m: 1, minWidth: 120 }}>
-          <InputLabel>Select Dog</InputLabel>
+        <FormControl sx={{ m: 1, minWidth: 400 }}>
+          <InputLabel>Select Dog Breed</InputLabel>
           <Select
             value={breed}
-            label="Select Dog"
-            onChange={handleChange}
+            label="Breed"
+            onChange={handleBreedChange}
             sx={{
               color: "black",
               ".MuiOutlinedInput-notchedOutline": {
@@ -106,6 +130,69 @@ const DogForm = ({
                 </MenuItem>
               ))}
           </Select>
+          {/* <FormHelperText>With label + helper text</FormHelperText> */}
+        </FormControl>
+        <FormControl sx={{ m: 1, minWidth: 400 }}>
+          <InputLabel>Select Dog Sub Breed</InputLabel>
+          <Select
+            value={subBreed}
+            label="Sub Breed"
+            onChange={handleSubBreedChange}
+            sx={{
+              color: "black",
+              ".MuiOutlinedInput-notchedOutline": {
+                borderColor: mainColors.primary.main,
+              },
+              "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                borderColor: mainColors.primary.main,
+              },
+              "&:hover .MuiOutlinedInput-notchedOutline": {
+                borderColor: mainColors.primary.main,
+              },
+              ".MuiSvgIcon-root ": {
+                fill: `${mainColors.primary.main} !important`,
+              },
+            }}
+          >
+            {subBreedList?.length &&
+              subBreedList?.map((subBreed: string, index: number) => (
+                <MenuItem key={index} value={subBreed}>
+                  {subBreed}
+                </MenuItem>
+              ))}
+          </Select>
+
+          {/* <FormHelperText>With label + helper text</FormHelperText> */}
+        </FormControl>
+        <FormControl sx={{ m: 1, minWidth: 400 }}>
+          <InputLabel>Select Number of Images</InputLabel>
+          <Select
+            value={numberOfImages}
+            label="Number"
+            onChange={handleNumberOfImagesChange}
+            sx={{
+              color: "black",
+              ".MuiOutlinedInput-notchedOutline": {
+                borderColor: mainColors.primary.main,
+              },
+              "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                borderColor: mainColors.primary.main,
+              },
+              "&:hover .MuiOutlinedInput-notchedOutline": {
+                borderColor: mainColors.primary.main,
+              },
+              ".MuiSvgIcon-root ": {
+                fill: `${mainColors.primary.main} !important`,
+              },
+            }}
+          >
+            {Array.from({ length: 50 }, (_, index) => (
+              <MenuItem key={index} value={index + 1}>
+                {index + 1}
+              </MenuItem>
+            ))}
+          </Select>
+
           {/* <FormHelperText>With label + helper text</FormHelperText> */}
         </FormControl>
       </DogFormContainer>
