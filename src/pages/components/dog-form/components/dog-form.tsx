@@ -12,10 +12,16 @@ import { useDispatch } from "react-redux";
 import { DogImagesAppActionType } from "@/pages/action-types";
 import { useSelector } from "react-redux";
 import { RootState } from "@/pages/reducers";
+import {
+  handleBreedChange,
+  handleNumberOfImagesChange,
+  handleSubBreedChange,
+} from "../helpers/funcs/dogFormFuncs";
+import { BreedsType } from "@/pages/types/breedTypes";
 
 interface DogFormProps {
-  breedList: any;
-  subBreedList: any;
+  breedList: BreedsType;
+  subBreedList: string[];
   setImages: React.Dispatch<React.SetStateAction<never[]>>;
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }
@@ -42,37 +48,6 @@ const DogForm = ({
   // const numberState = dogStore?.number;
   // const errorState = dogStore?.error;
 
-  const handleBreedChange = (e: any) => {
-    setBreed(e.target.value === "clear" ? "" : e.target.value);
-    dispatch({
-      type: DogImagesAppActionType.BREED,
-      payload: e.target.value === "clear" ? "all" : e.target.value,
-    });
-    dispatch({
-      type: DogImagesAppActionType.SUB_BREED,
-      payload: "all",
-    });
-    console.log("change func", e.target.value);
-  };
-
-  const handleSubBreedChange = (e: any) => {
-    setSubBreed(e.target.value);
-    dispatch({
-      type: DogImagesAppActionType.SUB_BREED,
-      payload: e.target.value,
-    });
-    console.log("change func222", e.target.value);
-  };
-
-  const handleNumberOfImagesChange = (e: any) => {
-    setSubBreed(e.target.value);
-    dispatch({
-      type: DogImagesAppActionType.NUMBER,
-      payload: e.target.value,
-    });
-    console.log("change func222", e.target.value);
-  };
-
   const handleClickClear = (e: any) => {
     setBreed("");
   };
@@ -86,7 +61,9 @@ const DogForm = ({
           <Select
             value={breed}
             label="Breed"
-            onChange={handleBreedChange}
+            onChange={(e) =>
+              handleBreedChange(e.target.value, dispatch, setBreed)
+            }
             sx={{
               color: "black",
               ".MuiOutlinedInput-notchedOutline": {
@@ -137,7 +114,9 @@ const DogForm = ({
           <Select
             value={subBreed}
             label="Sub Breed"
-            onChange={handleSubBreedChange}
+            onChange={(e) =>
+              handleSubBreedChange(e.target.value, dispatch, setSubBreed)
+            }
             sx={{
               color: "black",
               ".MuiOutlinedInput-notchedOutline": {
@@ -169,7 +148,13 @@ const DogForm = ({
           <Select
             value={numberOfImages}
             label="Number"
-            onChange={handleNumberOfImagesChange}
+            onChange={(e) =>
+              handleNumberOfImagesChange(
+                e.target.value as number,
+                dispatch,
+                setNumberOfImages
+              )
+            }
             sx={{
               color: "black",
               ".MuiOutlinedInput-notchedOutline": {
