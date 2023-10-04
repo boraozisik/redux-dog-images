@@ -9,7 +9,6 @@ export const useBreedList = (breedState: string) => {
   const fetchData = async () => {
     await fetchDogs()
       .then((data) => {
-        console.log(data?.message);
         setBreedList(data?.message);
       })
       .catch((error) => {
@@ -18,7 +17,6 @@ export const useBreedList = (breedState: string) => {
     if (breedState !== "all") {
       await fetchDogsSubBreed(breedState)
         .then((data) => {
-          console.log("subbreedd", data?.message);
           setSubBreedList(data?.message);
         })
         .catch((error) => {

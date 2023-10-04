@@ -14,7 +14,7 @@ const GetDogs = (props: Props) => {
   const dogStore = useSelector((state: RootState) => state.reducer);
   const breedState = dogStore?.breed;
   const [breedList, setBreedList] = useState(null);
-  const [subBreedList, setSubBreedList] = useState(null);
+  const [subBreedList, setSubBreedList] = useState([]);
 
   const [images, setImages] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -39,10 +39,6 @@ const GetDogs = (props: Props) => {
         });
     }
   }, [breedState]);
-
-  console.log("breed list", breedList);
-  console.log("TYPEOF breed list", typeof breedList);
-  console.log("subbbbrrt", subBreedList);
 
   useEffect(() => {
     fetchData();

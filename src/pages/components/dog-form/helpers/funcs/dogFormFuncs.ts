@@ -15,7 +15,6 @@ export const handleBreedChange = (
     type: DogImagesAppActionType.SUB_BREED,
     payload: "all",
   });
-  console.log("change func", value);
 };
 
 export const handleSubBreedChange = (
@@ -28,7 +27,6 @@ export const handleSubBreedChange = (
     type: DogImagesAppActionType.SUB_BREED,
     payload: value,
   });
-  console.log("change func222", value);
 };
 
 export const handleNumberOfImagesChange = (
@@ -41,5 +39,4 @@ export const handleNumberOfImagesChange = (
     type: DogImagesAppActionType.NUMBER,
     payload: value,
   });
-  console.log("change func222", value);
 };

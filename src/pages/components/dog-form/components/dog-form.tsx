@@ -1,23 +1,20 @@
-import React, { useState } from "react";
-import { DogFormContainer } from "../helpers/styled-components/dogFormContainer";
-import { Stack, Typography, Button } from "@mui/material";
+import { RootState } from "@/pages/reducers";
+import { BreedsType } from "@/pages/types/breedTypes";
+import ClearIcon from "@mui/icons-material/Clear";
+import { Button, Stack, Typography } from "@mui/material";
+import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
-import FormHelperText from "@mui/material/FormHelperText";
-import FormControl from "@mui/material/FormControl";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
-import ClearIcon from "@mui/icons-material/Clear";
+import Select from "@mui/material/Select";
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { mainColors } from "../../mainOptions";
-import { useDispatch } from "react-redux";
-import { DogImagesAppActionType } from "@/pages/action-types";
-import { useSelector } from "react-redux";
-import { RootState } from "@/pages/reducers";
 import {
   handleBreedChange,
   handleNumberOfImagesChange,
   handleSubBreedChange,
 } from "../helpers/funcs/dogFormFuncs";
-import { BreedsType } from "@/pages/types/breedTypes";
+import { DogFormContainer } from "../helpers/styled-components/dogFormContainer";
 
 interface DogFormProps {
   breedList: BreedsType;
@@ -41,8 +38,6 @@ const DogForm = ({
 
   const dogStore = useSelector((state: RootState) => state.reducer);
 
-  console.log("dog store", dogStore);
-
   // const breedState = dogStore?.breed;
   // const subBreedState = dogStore?.subBreed;
   // const numberState = dogStore?.number;
@@ -56,11 +51,12 @@ const DogForm = ({
     <Stack>
       <DogFormContainer>
         <Typography variant="h4">Dog form</Typography>
+
         <FormControl sx={{ m: 1, minWidth: 400 }}>
           <InputLabel>Select Dog Breed</InputLabel>
           <Select
             value={breed}
-            label="Breed"
+            label="Select Dog Breed"
             onChange={(e) =>
               handleBreedChange(e.target.value, dispatch, setBreed)
             }
@@ -113,7 +109,7 @@ const DogForm = ({
           <InputLabel>Select Dog Sub Breed</InputLabel>
           <Select
             value={subBreed}
-            label="Sub Breed"
+            label="Select Dog Sub Breed"
             onChange={(e) =>
               handleSubBreedChange(e.target.value, dispatch, setSubBreed)
             }
@@ -147,7 +143,7 @@ const DogForm = ({
           <InputLabel>Select Number of Images</InputLabel>
           <Select
             value={numberOfImages}
-            label="Number"
+            label="Select Number of Images"
             onChange={(e) =>
               handleNumberOfImagesChange(
                 e.target.value as number,
