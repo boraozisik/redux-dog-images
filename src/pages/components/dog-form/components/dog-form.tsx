@@ -1,12 +1,12 @@
 import { RootState } from "@/pages/reducers";
 import { BreedsType } from "@/pages/types/breedTypes";
 import ClearIcon from "@mui/icons-material/Clear";
-import { Button, Stack, Typography } from "@mui/material";
+import { Button, FormHelperText, Stack, Typography } from "@mui/material";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { mainColors } from "../../mainOptions";
 import {
@@ -15,6 +15,13 @@ import {
   handleSubBreedChange,
 } from "../helpers/funcs/dogFormFuncs";
 import { DogFormContainer } from "../helpers/styled-components/dogFormContainer";
+import { DogImagesAppActionType } from "@/pages/action-types";
+import DogFormButton from "./DogFormButton";
+import SearchIcon from "@mui/icons-material/Search";
+import {
+  fetchDogsBreedImages,
+  fetchDogsSubBreedImages,
+} from "@/pages/network/lib/dogApi";
 
 interface DogFormProps {
   breedList: BreedsType;
@@ -29,22 +36,60 @@ const DogForm = ({
   setImages,
   setIsLoading,
 }: DogFormProps) => {
-  const [breed, setBreed] = useState("");
-  const [subBreed, setSubBreed] = useState("");
-  const [numberOfImages, setNumberOfImages] = useState(1);
   const dispatch = useDispatch();
-
-  //alternative select's value
 
   const dogStore = useSelector((state: RootState) => state.reducer);
 
-  // const breedState = dogStore?.breed;
-  // const subBreedState = dogStore?.subBreed;
-  // const numberState = dogStore?.number;
-  // const errorState = dogStore?.error;
+  const breedState = dogStore?.breed;
+  const subBreedState = dogStore?.subBreed;
+  const numberState = dogStore?.number;
+  const errorState = dogStore?.error;
 
-  const handleClickClear = (e: any) => {
-    setBreed("");
+  const handleClickFetch = async () => {
+    if (breedState === "all") {
+      dispatch({
+        type: DogImagesAppActionType.ERROR,
+        payload: true,
+      });
+    }
+    if (breedState !== "all" && subBreedState === "all") {
+      await fetchDogsBreedImages(breedState, numberState)
+        .then((data) => {
+          if (data?.status === "success" && data?.message?.length) {
+            setImages(data?.message);
+            setIsLoading(false);
+            dispatch({
+              type: DogImagesAppActionType.IMAGE_RESULTS,
+              payload: data?.message?.length,
+            });
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+    if (breedState !== "all" && subBreedState !== "all") {
+      await fetchDogsSubBreedImages(breedState, subBreedState, numberState)
+        .then((data) => {
+          if (data?.status === "success" && data?.message?.length) {
+            setImages(data?.message);
+            setIsLoading(false);
+            dispatch({
+              type: DogImagesAppActionType.IMAGE_RESULTS,
+              payload: data?.message?.length,
+            });
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  };
+
+  const handleClickReset = () => {
+    dispatch({
+      type: DogImagesAppActionType.RESET,
+    });
   };
 
   return (
@@ -52,14 +97,12 @@ const DogForm = ({
       <DogFormContainer>
         <Typography variant="h4">Dog form</Typography>
 
-        <FormControl sx={{ m: 1, minWidth: 400 }}>
+        <FormControl fullWidth>
           <InputLabel>Select Dog Breed</InputLabel>
           <Select
-            value={breed}
+            value={breedState === "all" ? "" : breedState}
             label="Select Dog Breed"
-            onChange={(e) =>
-              handleBreedChange(e.target.value, dispatch, setBreed)
-            }
+            onChange={(e) => handleBreedChange(e.target.value, dispatch)}
             sx={{
               color: "black",
               ".MuiOutlinedInput-notchedOutline": {
@@ -77,7 +120,7 @@ const DogForm = ({
             }}
           >
             <MenuItem
-              onClick={handleClickClear}
+              onClick={handleClickReset}
               value="clear"
               sx={{ width: "100%" }}
             >
@@ -103,16 +146,19 @@ const DogForm = ({
                 </MenuItem>
               ))}
           </Select>
-          {/* <FormHelperText>With label + helper text</FormHelperText> */}
+          {errorState && (
+            <FormHelperText sx={{ color: mainColors.secondary }}>
+              You must select a breed
+            </FormHelperText>
+          )}
         </FormControl>
-        <FormControl sx={{ m: 1, minWidth: 400 }}>
+
+        <FormControl fullWidth disabled={!(subBreedList?.length > 0)}>
           <InputLabel>Select Dog Sub Breed</InputLabel>
           <Select
-            value={subBreed}
+            value={subBreedState === "all" ? "" : subBreedState}
             label="Select Dog Sub Breed"
-            onChange={(e) =>
-              handleSubBreedChange(e.target.value, dispatch, setSubBreed)
-            }
+            onChange={(e) => handleSubBreedChange(e.target.value, dispatch)}
             sx={{
               color: "black",
               ".MuiOutlinedInput-notchedOutline": {
@@ -136,20 +182,14 @@ const DogForm = ({
                 </MenuItem>
               ))}
           </Select>
-
-          {/* <FormHelperText>With label + helper text</FormHelperText> */}
         </FormControl>
-        <FormControl sx={{ m: 1, minWidth: 400 }}>
+        <FormControl fullWidth>
           <InputLabel>Select Number of Images</InputLabel>
           <Select
-            value={numberOfImages}
+            value={numberState}
             label="Select Number of Images"
             onChange={(e) =>
-              handleNumberOfImagesChange(
-                e.target.value as number,
-                dispatch,
-                setNumberOfImages
-              )
+              handleNumberOfImagesChange(e.target.value, dispatch)
             }
             sx={{
               color: "black",
@@ -173,9 +213,31 @@ const DogForm = ({
               </MenuItem>
             ))}
           </Select>
-
-          {/* <FormHelperText>With label + helper text</FormHelperText> */}
         </FormControl>
+        <Stack
+          direction={"row"}
+          alignItems={"center"}
+          justifyContent={"center"}
+          gap={1}
+          width={"100%"}
+        >
+          <DogFormButton
+            variant="contained"
+            text="Search Dogs"
+            handleClick={handleClickFetch}
+            setImages={setImages}
+            setIsLoading={setIsLoading}
+            endIcon={<SearchIcon />}
+          />
+          <DogFormButton
+            variant="outlined"
+            text="Clear Search"
+            handleClick={handleClickReset}
+            setImages={setImages}
+            setIsLoading={setIsLoading}
+            endIcon={<ClearIcon />}
+          />
+        </Stack>
       </DogFormContainer>
     </Stack>
   );

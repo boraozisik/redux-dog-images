@@ -1,28 +1,25 @@
 import { DogImagesAppActionType } from "@/pages/action-types";
 import { Dispatch } from "redux";
 
-export const handleBreedChange = (
-  value: string,
-  dispatch: Dispatch<any>,
-  setBreed: React.Dispatch<React.SetStateAction<string>>
-) => {
-  setBreed(value === "clear" ? "" : value);
+export const handleBreedChange = (value: string, dispatch: Dispatch<any>) => {
   dispatch({
     type: DogImagesAppActionType.BREED,
-    payload: value === "clear" ? "all" : value,
+    payload: value,
   });
   dispatch({
     type: DogImagesAppActionType.SUB_BREED,
     payload: "all",
   });
+  dispatch({
+    type: DogImagesAppActionType.ERROR,
+    payload: false,
+  });
 };
 
 export const handleSubBreedChange = (
   value: string,
-  dispatch: Dispatch<any>,
-  setSubBreed: React.Dispatch<React.SetStateAction<string>>
+  dispatch: Dispatch<any>
 ) => {
-  setSubBreed(value);
   dispatch({
     type: DogImagesAppActionType.SUB_BREED,
     payload: value,
@@ -30,13 +27,11 @@ export const handleSubBreedChange = (
 };
 
 export const handleNumberOfImagesChange = (
-  value: number,
-  dispatch: Dispatch<any>,
-  setNumberOfImages: React.Dispatch<React.SetStateAction<number>>
+  value: string,
+  dispatch: Dispatch<any>
 ) => {
-  setNumberOfImages(value);
   dispatch({
     type: DogImagesAppActionType.NUMBER,
-    payload: value,
+    payload: Number(value),
   });
 };
