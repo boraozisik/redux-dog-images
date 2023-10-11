@@ -7,12 +7,14 @@ import DogForm from "./components/dog-form";
 import { useSubBreedList } from "./helpers/hooks/useSubBreedList";
 import { useSelector } from "react-redux";
 import { RootState } from "@/pages/reducers";
+import ImageResults from "./components/image-results/ImageResults";
 
 type Props = {};
 
 const GetDogs = (props: Props) => {
   const dogStore = useSelector((state: RootState) => state.reducer);
   const breedState = dogStore?.breed;
+  const imageResultsState = dogStore?.imageResults;
   const [breedList, setBreedList] = useState(null);
   const [subBreedList, setSubBreedList] = useState([]);
 
@@ -63,6 +65,7 @@ const GetDogs = (props: Props) => {
             setImages={setImages}
             setIsLoading={setIsLoading}
           />
+          {imageResultsState > 0 && <ImageResults images={images} />}
         </Stack>
       )}
     </Stack>
