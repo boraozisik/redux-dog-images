@@ -3,6 +3,7 @@ import { ImageResultsContainer } from "../../helpers/styled-components/imageResu
 import { Typography } from "@mui/material";
 import DogInfo from "./DogInfo";
 import RenderImages from "./RenderImages";
+import { mainColors } from "@/pages/components/mainOptions";
 
 interface ImageResultsProps {
   images: string[];
@@ -11,7 +12,6 @@ interface ImageResultsProps {
 const ImageResults = ({ images }: ImageResultsProps) => {
   return (
     <ImageResultsContainer>
-      <Typography variant="h4">Gallery</Typography>
       <DogInfo />
       <RenderImages images={images} />
     </ImageResultsContainer>

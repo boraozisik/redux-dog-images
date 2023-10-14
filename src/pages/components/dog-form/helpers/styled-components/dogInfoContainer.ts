@@ -8,5 +8,5 @@ export const DogInfoContainer = styled(Stack)(({ theme }) => ({
   fontSize: "1.4rem",
   padding: "20px",
   borderRadius: "16px",
-  backgroundColor: mainColors.grey,
+  backgroundColor: mainColors.primary.main,
 }));

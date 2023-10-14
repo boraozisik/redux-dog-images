@@ -95,7 +95,12 @@ const DogForm = ({
   return (
     <Stack>
       <DogFormContainer>
-        <Typography variant="h4">Dog form</Typography>
+        <img
+          style={{ padding: "5px" }}
+          height={"100px"}
+          width={"100%"}
+          src="/static/illustrations/undraw-dog.svg"
+        />
 
         <FormControl fullWidth>
           <InputLabel>Select Dog Breed</InputLabel>
@@ -119,26 +124,6 @@ const DogForm = ({
               },
             }}
           >
-            <MenuItem
-              onClick={handleClickReset}
-              value="clear"
-              sx={{ width: "100%" }}
-            >
-              <Stack>
-                <Button
-                  sx={{
-                    backgroundColor: mainColors.primary.main,
-                    "&:hover": {
-                      backgroundColor: mainColors.primary.dark,
-                    },
-                  }}
-                  variant="contained"
-                  endIcon={<ClearIcon />}
-                >
-                  None
-                </Button>
-              </Stack>
-            </MenuItem>
             {breedList &&
               Object.keys(breedList as Object)?.map((breedKey, index) => (
                 <MenuItem key={index} value={breedKey}>

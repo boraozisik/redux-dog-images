@@ -65,10 +65,10 @@ const Header = (props: Props) => {
             DOG IMAGES
           </Typography>
           <img
-            style={{ padding: "5px" }}
-            height={"70px"}
-            width={"150px"}
-            src="/static/illustrations/undraw-dog.svg"
+            style={{ padding: "3px" }}
+            height={"80px"}
+            width={"220px"}
+            src="/static/illustrations/undraw-dog-walking.svg"
           />
         </Toolbar>
       </Container>

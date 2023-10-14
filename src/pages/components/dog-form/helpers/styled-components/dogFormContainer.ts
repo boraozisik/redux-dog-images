@@ -10,5 +10,5 @@ export const DogFormContainer = styled(Stack)(({ theme }) => ({
   padding: "15px",
   backgroundColor: mainColors.grey,
   borderRadius: "10px",
-  minWidth: 400,
+  minWidth: 600,
 }));

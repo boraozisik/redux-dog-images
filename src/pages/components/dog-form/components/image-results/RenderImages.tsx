@@ -1,3 +1,4 @@
+import { Grid, Stack } from "@mui/material";
 import React from "react";
 
 interface RenderImagesProps {
@@ -6,11 +7,22 @@ interface RenderImagesProps {
 
 const RenderImages = ({ images }: RenderImagesProps) => {
   return (
-    <div>
+    <Grid container spacing={2} mt={1}>
       {images.map((image, index) => (
-        <img key={index} src={image} alt="Dog Image" />
+        <Grid key={index} item xs={4}>
+          <img
+            src={image}
+            alt="Dog Image"
+            style={{
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+              borderRadius: "8px",
+            }}
+          />
+        </Grid>
       ))}
-    </div>
+    </Grid>
   );
 };
 

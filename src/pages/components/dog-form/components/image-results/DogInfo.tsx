@@ -3,6 +3,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { DogInfoContainer } from "../../helpers/styled-components/dogInfoContainer";
 import { Typography } from "@mui/material";
+import { mainColors } from "@/pages/components/mainOptions";
 
 interface DogInfoProps {}
 
@@ -25,16 +26,20 @@ const DogInfo = (props: DogInfoProps) => {
       imageResultsState > 0
     )
       return (
-        <span>
+        <Typography variant="h6" sx={{ color: mainColors.grey }}>
           {capitalizeBreed(breedState)} - {capitalizeBreed(subBreedState)}
-        </span>
+        </Typography>
       );
     if (
       breedState !== "all" &&
       subBreedState === "all" &&
       imageResultsState > 0
     )
-      return <span>{capitalizeBreed(breedState)}</span>;
+      return (
+        <Typography variant="h6" sx={{ color: mainColors.grey }}>
+          {capitalizeBreed(breedState)}
+        </Typography>
+      );
     return null;
   };
 
@@ -42,7 +47,9 @@ const DogInfo = (props: DogInfoProps) => {
     <DogInfoContainer direction={"row"}>
       <>
         {renderTitle()}
-        <Typography variant="h6">{imageResultsState} results</Typography>
+        <Typography variant="h6" sx={{ color: mainColors.grey }}>
+          {imageResultsState} results
+        </Typography>
       </>
     </DogInfoContainer>
   );
